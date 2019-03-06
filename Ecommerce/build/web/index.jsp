@@ -1,1 +1,1 @@
-<% response.sendRedirect("Incio"); %>
+<% /*out.println("Hola");*/response.sendRedirect("Inicio"); /* envía al servlet ubicado en view */%>

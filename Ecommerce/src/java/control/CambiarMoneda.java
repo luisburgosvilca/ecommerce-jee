@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package view;
+package control;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -17,7 +17,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author luis.burgos
  */
-public class Inicio extends HttpServlet {
+public class CambiarMoneda extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -32,11 +32,35 @@ public class Inicio extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession sesion = request.getSession();
-        if(sesion.getAttribute("moneda")==null){
-            sesion.setAttribute("moneda", "MXN");
-            sesion.setAttribute("non_moneda", "$ Pesos Mexicanos");
+        if(sesion.getAttribute("moneda")!=null){
+            switch(request.getParameter("moneda")){
+                case "MXN":
+                    sesion.setAttribute("moneda", "MXN");
+                    sesion.setAttribute("non_moneda", "$ Pesos Mexicanos");
+                    break;
+                    
+                case "COP":
+                    sesion.setAttribute("moneda", request.getParameter("moneda"));
+                    sesion.setAttribute("non_moneda", "$ Pesos Colombianos");
+                    break;
+                 
+                case "USD":
+                    sesion.setAttribute("moneda", request.getParameter("moneda"));
+                    sesion.setAttribute("non_moneda", "$ Dólar USA");
+                    break;
+                 
+                case "PEN":
+                    sesion.setAttribute("moneda", request.getParameter("moneda"));
+                    sesion.setAttribute("non_moneda", "S/. Sol Peruano");
+                    break;
+                    
+                default: 
+                    sesion.setAttribute("moneda", "MXN");
+                    sesion.setAttribute("non_moneda", "$ Pesos Mexicanos");
+            }
+
         }
-        request.getRequestDispatcher("WEB-INF/index.jsp").forward(request, response);//enlace
+        response.sendRedirect("Inicio");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
